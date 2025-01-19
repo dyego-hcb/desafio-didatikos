@@ -60,6 +60,15 @@
       Para editar as informações de um produto, clique no ícone de edição.
     </p>
 
+    <p>
+      Media dos valores dos produtos:
+      {{ formatCurrency(calculateAverageValue()) }}
+    </p>
+    <p>
+      Soma total dos valores dos produtos:
+      {{ formatCurrency(calculateTotalValue()) }}
+    </p>
+
     <table id="products-table">
       <thead>
         <tr>
@@ -228,6 +237,18 @@ export default {
       }
 
       return text;
+    },
+    calculateTotalValue() {
+      return this.products.reduce(
+        (total, product) => total + product.valorProduto,
+        0
+      );
+    },
+
+    calculateAverageValue() {
+      const total = this.calculateTotalValue();
+      const count = this.products.length;
+      return count > 0 ? total / count : 0;
     },
     formatCurrency(value) {
       if (!value) return "R$ 0,00";
